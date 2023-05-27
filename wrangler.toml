@@ -1,0 +1,8 @@
+name = "proxy"
+main = "src/worker.ts"
+compatibility_date = "2023-05-27"
+
+
+[vars]
+TENOR_API_URL = "https://tenor.googleapis.com/"
+TENOR_MEDIA_URL = "https://media.tenor.com/"
