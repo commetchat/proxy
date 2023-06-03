@@ -1,52 +1,22 @@
 export default {
-	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		const url = new URL(request.url);
+	async proxyApi(params: { [key: string]: string }, query: { [key: string]: string }, env: Env): Promise<Response> {
+		var proxyUrl = new URL(env.TENOR_API_URL + params.path);
 
-		if (url.pathname.startsWith("/proxy/tenor/api")) {
-			return this.proxyApi(url, env);
+		if (!["v2/search"].includes(params.path)) {
+			return new Response('Invalid request', { status: 401 })
 		}
 
-		if (url.pathname.startsWith("/proxy/tenor/media")) {
-			return this.proxyMedia(url, env);
-		}
+		["q"].forEach((key: string) => {
+			if (query.hasOwnProperty(key))
+				proxyUrl.searchParams.append(key, query[key]);
+		});
 
-		return new Response('Not Found.', { status: 404 });
+		proxyUrl.searchParams.append("key", env.TENOR_API_KEY);
+		return fetch(proxyUrl);
 	},
 
-	async proxyApi(url: URL, env: Env): Promise<Response> {
-		var split = url.pathname.split('/')
-		var path = split.slice(4).join("/")
-
-		console.log(env.TENOR_API_URL);
-		var proxyUrl = new URL(env.TENOR_API_URL + path);
-
-		proxyUrl.searchParams.append("key", env.TENOR_API_KEY)
-
-		url.searchParams.forEach((value, key) => {
-			proxyUrl.searchParams.append(key, value);
-		})
-
-		let res = await fetch(proxyUrl);
-
-		return res;
-	},
-
-	async proxyMedia(url: URL, env: Env): Promise<Response> {
-
-		var split = url.pathname.split('/')
-		var path = split.slice(4).join("/")
-
-		var proxyUrl = new URL(env.TENOR_MEDIA_URL + path);
-
-		url.searchParams.forEach((value, key) => {
-			console.log(key);
-			if (key) {
-				proxyUrl.searchParams.append(key, value);
-			}
-		})
-
-		let res = await fetch(proxyUrl);
-
-		return res;
+	async proxyMedia(params: { [key: string]: string }, query: { [key: string]: string }, env: Env): Promise<Response> {
+		var proxyUrl = new URL(env.TENOR_MEDIA_URL + params.path);
+		return fetch(proxyUrl);
 	},
 };
