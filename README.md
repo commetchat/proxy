@@ -19,3 +19,17 @@
 This service is built as a Cloudflare Worker. Check out [this guide](https://developers.cloudflare.com/workers/get-started/guide/) if you are unfamiliar.
 
 For development purposes, you will need to supply your own Tenor API key in `.dev.vars` file. Have a look at [this guide](https://developers.google.com/tenor/guides/quickstart) to get started working with Tenor api.
+
+## API
+Interacting should be nearly identical to working with the third party API itself, but with limited functionality. It will only allow queries that are integral to the functionality required by Commet.
+
+### Requests
+Requests may not share the exact same path as you might expect for a given api. 
+
+For example, the Tenor search api structures a request like so:
+
+`https://tenor.googleapis.com/v2/search?q=comet`
+
+Making this same request via this proxy would look like this:
+
+`https://proxy.commet.chat/proxy/tenor/api/v2/search?q=comet`
