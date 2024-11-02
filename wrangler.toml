@@ -1,4 +1,4 @@
-name = "proxy"
+name = "commet-proxy"
 main = "src/worker.ts"
 compatibility_date = "2023-05-27"
 
