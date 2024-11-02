@@ -128,3 +128,4 @@ dist
 .dev.vars
 
 .wrangler/
+.dev.vars
