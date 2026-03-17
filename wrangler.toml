@@ -6,4 +6,6 @@ compatibility_date = "2023-05-27"
 [vars]
 TENOR_API_URL = "https://tenor.googleapis.com/"
 TENOR_MEDIA_URL = "https://media.tenor.com/"
+KLIPY_API_URL = "https://api.klipy.com/"
+KLIPY_MEDIA_URL = "https://static.klipy.com/"
 SIGNAL_STICKERS_URL = "https://cdn-ca.signal.org/"
